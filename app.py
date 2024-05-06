@@ -20,7 +20,9 @@ if __name__ == "__main__":
             amount = input("Введите сумму транзакции: ")
             description = input("Введите описание транзакции: ")
 
-            transaction = Transaction(date, category, amount, description)
+            transaction_id = Transaction.generate_id(manager.transactions)
+            print(transaction_id)
+            transaction = Transaction(transaction_id, date, category, amount, description)
 
             errors = transaction.get_errors()
             if errors:

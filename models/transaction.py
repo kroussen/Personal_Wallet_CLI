@@ -2,14 +2,16 @@ from datetime import datetime
 
 
 class Transaction:
-    def __init__(self, date=None, category=None, amount=None, description=''):
+    def __init__(self, transaction_id, date=None, category=None, amount=None, description=''):
+        self.transaction_id = transaction_id
         self.date = self.validate_date(date)
         self.category = self.validate_category(category)
         self.amount = self.validate_amount(amount)
         self.description = description
 
     def __str__(self):
-        return f"Дата: {self.date}\n" \
+        return f"ID: {self.transaction_id}\n" \
+               f"Дата: {self.date}\n" \
                f"Категория: {self.category}\n" \
                f"Сумма: {self.amount}\n" \
                f"Описание: {self.description}"
@@ -44,3 +46,9 @@ class Transaction:
             if isinstance(error, list) and 'error_message' in error:
                 errors.append(error[1])
         return errors
+
+    @staticmethod
+    def generate_id(transactions):
+        if not transactions:
+            return 0
+        return max(transaction.transaction_id for transaction in transactions) + 1
