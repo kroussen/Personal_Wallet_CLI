@@ -1,6 +1,6 @@
 # Personal_Wallet_CLI
 
-Пример:
+Example:
 
 ```
     from managers.transaction_manager import TransactionManager
@@ -12,167 +12,166 @@
     transaction_id = Transaction.generate_id(manager.transactions)
     transaction = Transaction(transaction_id=transaction_id, 
                               date='01-01-2000',
-                              category='доход',
+                              category='income',
                               amount=1000,
-                              description='описание')
+                              description='desc')
                               
     manager.add_transaction(transaction) 
     
     print(transaction)
     
-    Вывод:
+    output:
     ID: 0
-    Дата: 01-01-2000
-    Категория: доход
-    Сумма: 1000
-    Описание: описание
+    Date: 01-01-2000
+    Category: income
+    Amount: 1000
+    Description: desc
 ```
 
 
-Исполняемый файл - *app.py*
+Executable file - *app.py*
 
-При исполнении кода, создается файл json, хранящий в себе
-записи вида:
+When the code is executed, a JSON file is created, storing entries of the following format:
 
 ```
 [
  {
     'transaction_id': 0,
     'date': '28-09-1999',
-    'category': 'расход',
+    'category': 'expense',
     'amount': 1000,
-    'description': 'описание'
+    'description': 'desc'
  }
 ]
 ```
-Параметр **description** опционален  
-Валидные категории - 'доход', 'расход'
+Parameter *description* is optional.
+Valid categories are 'income' and 'expense'.
 
 
 class Transaction(*transaction_id: int = 0, date: str = None, category: str = None, amount: Union[float, str] = None,
                  description: str = ''*)
 
-        :param transaction_id: Уникальный идентификатор транзакции.
-        :param date: Дата транзакции в формате 'ДД-ММ-ГГГГ'.
-        :param category: Категория транзакции ('доход' или 'расход').
-        :param amount: Сумма транзакции.
-        :param description: Описание транзакции.
+        :param transaction_id: Unique identifier of the transaction.
+:param date: Date of the transaction in the format 'DD-MM-YYYY'.
+:param category: Category of the transaction ('income' or 'expense').
+:param amount: Amount of the transaction.
+:param description: Description of the transaction.
 
-    Методы:
+Methods:
 
-        --> def validate_date(date: str) -> Union[str, List[str]]
-        Проверяет строку даты.
+    --> def validate_date(date: str) -> Union[str, List[str]]:
+    Checks the date string.
 
-        :param date: Строка даты.
-        return: Дата в формате 'ДД-ММ-ГГГГ' или список [error_message, message], если дата неверного формата.
-
-
-        --> def validate_category(category: str) -> Union[str, List[str]]:
-        Проверяет категорию транзакции.
-
-        :param category: Категория транзакции.
-        return: Категория транзакции или список [error_message, message], если категория неверна.
-        
-
-        --> def validate_amount(amount: Union[float, str]) -> Union[float, List[str]]
-        Проверяет и форматирует сумму транзакции.
-
-        :param amount: Сумма транзакции.
-        return: Сумма транзакции или список [error_message, message], если сумма неверна.
-        
-
-        --> def get_errors(self) -> List[str]
-        Возвращает список ошибок объекта транзакции.
-
-        :return: Список ошибок объекта транзакции.
+    :param date: Date string.
+    :return: Date in the format 'DD-MM-YYYY' or a list [error_message, message] if the date is invalid.
 
 
-        --> def generate_id(transactions: List['Transaction']) -> int
-        Генерирует уникальный идентификатор для новой транзакции на основе последней записи транкзации.
+    --> def validate_category(category: str) -> Union[str, List[str]]:
+    Checks the transaction category.
 
-        :param transactions: Список существующих транзакций.
-        :return: Уникальный идентификатор для новой транзакции.
-        
+    :param category: Transaction category.
+    :return: Transaction category or a list [error_message, message] if the category is invalid.
+    
 
-        --> def is_valid_id(index: str, transactions: List['Transaction']) -> bool
-        Проверяет, является ли индекс допустимым идентификатором транзакции.
+    --> def validate_amount(amount: Union[float, str]) -> Union[float, List[str]]:
+    Validates and formats the transaction amount.
 
-        :param index: Индекс для проверки.
-        :param transactions: Список существующих транзакций.
-        :return: True, если индекс допустим, иначе False.
+    :param amount: Transaction amount.
+    :return: Transaction amount or a list [error_message, message] if the amount is invalid.
+    
+
+    --> def get_errors(self) -> List[str]:
+    Returns a list of errors for the transaction object.
+
+    :return: List of errors for the transaction object.
+
+
+    --> def generate_id(transactions: List['Transaction']) -> int:
+    Generates a unique identifier for a new transaction based on the last transaction record.
+
+    :param transactions: List of existing transactions.
+    :return: Unique identifier for a new transaction.
+    
+
+    --> def is_valid_id(index: str, transactions: List['Transaction']) -> bool:
+    Checks if the index is a valid transaction identifier.
+
+    :param index: Index to check.
+    :param transactions: List of existing transactions.
+    :return: True if the index is valid, False otherwise.
 
 
 class TransactionManager(*transactions: List[Transaction]*)
 
-        :param transactions: Список существующикх объектов транзакций
+       :param transactions: List of existing transaction objects.
 
-    Методы:
+Methods:
 
-        --> def add_transaction(self, transaction: Transaction) -> None
-        Добавляет новую транзакцию в список транзакций и сохраняет его в файл.
+    --> def add_transaction(self, transaction: Transaction) -> None:
+    Adds a new transaction to the list of transactions and saves it to a file.
 
-        :param transaction: Объект транзакции для добавления.
-        :type transaction: Transaction
-        :return: None
-        
-        
-        --> def edit_transaction(self, index: int, new_transaction: Transaction) -> None
-        Редактирует существующую транзакцию в списке транзакций по указанному индексу и сохраняет его в файл.
+    :param transaction: Transaction object to add.
+    :type transaction: Transaction
+    :return: None
+    
+    
+    --> def edit_transaction(self, index: int, new_transaction: Transaction) -> None:
+    Edits an existing transaction in the list of transactions at the specified index and saves it to a file.
 
-        :param index: Индекс транзакции для редактирования.
-        :type index: int
-        :param new_transaction: Новая транзакция для замены существующей.
-        :type new_transaction: Transaction
-        :return: None
-        
+    :param index: Index of the transaction to edit.
+    :type index: int
+    :param new_transaction: New transaction to replace the existing one.
+    :type new_transaction: Transaction
+    :return: None
+    
 
-        --> def search_transactions(self, category: Optional[str] = None, date: Optional[str] = None,
-                            amount: Optional[Union[float, str]] = None) -> List[Transaction]
-        Поиск транзакций по заданным критериям.
+    --> def search_transactions(self, category: Optional[str] = None, date: Optional[str] = None,
+                        amount: Optional[Union[float, str]] = None) -> List[Transaction]:
+    Searches for transactions based on specified criteria.
 
-        :param category: Категория транзакции для поиска.
-        :type category: str or None
-        :param date: Дата транзакции для поиска.
-        :type date: str or None
-        :param amount: Сумма транзакции для поиска.
-        :type amount: float or str or None
-        :return: Список найденных транзакций.
-        :rtype: List[Transaction]
-        
+    :param category: Transaction category to search for.
+    :type category: str or None
+    :param date: Transaction date to search for.
+    :type date: str or None
+    :param amount: Transaction amount to search for.
+    :type amount: float or str or None
+    :return: List of found transactions.
+    :rtype: List[Transaction]
+    
 
-        --> def calculate_balance(self) -> Dict[str, float]
-        Вычисляет баланс доходов и расходов.
+    --> def calculate_balance(self) -> Dict[str, float]:
+    Calculates the balance of income and expenses.
 
-        :return: Словарь с балансом, доходами и расходами.
-        :rtype: Dict[str, float]
-        
+    :return: Dictionary with balance, income, and expenses.
+    :rtype: Dict[str, float]
+    
 
-        --> def get_balance(self) -> Dict[str, float]
-        Возвращает текущий баланс.
+    --> def get_balance(self) -> Dict[str, float]:
+    Returns the current balance.
 
-        :return: Словарь с текущим балансом, доходами и расходами.
-        :rtype: Dict[str, float]
+    :return: Dictionary with the current balance, income, and expenses.
+    :rtype: Dict[str, float]
         
 
 
 
 python app.py
 
-Действия:
+Actions:
 
-После запуска скрипта вам будет предложено меню со следующими опциями:
+After running the script, you will be presented with a menu with the following options:
 
-    1. Добавить новую транзакцию: Позволяет добавить новую транзакцию, указав дату, категорию, сумму и описание.
-    2. Редактировать существующую транзакцию: Позволяет отредактировать существующую транзакцию, указав её индекс и новые данные.
-    3. Поиск транзакций: Позволяет выполнять поиск транзакций по категории, дате или сумме.
-    4. Посмотреть баланс: Отображает текущий баланс.
-    5. Посмотреть доходы: Показывает общий доход.
-    6. Посмотреть расходы: Показывает общие расходы.
-    0. Выход: Завершает программу.
+    1. Add a new transaction: Allows you to add a new transaction by specifying the date, category, amount, and description.
+    2. Edit an existing transaction: Allows you to edit an existing transaction by specifying its index and new data.
+    3. Search transactions: Allows you to search for transactions by category, date, or amount.
+    4. View balance: Displays the current balance.
+    5. View income: Shows the total income.
+    6. View expenses: Shows the total expenses.
+    0. Exit: Terminates the program.
 
-Формат ввода:
+Input Format:
 
-    Дата: Введите дату транзакции в формате ДД-ММ-ГГГГ.
-    Категория: Укажите категорию транзакции (доход/расход).
-    Сумма: Введите сумму транзакции.
-    Описание: Укажите описание транзакции.
+    Date: Enter the transaction date in the format DD-MM-YYYY.
+    Category: Specify the transaction category (income/expense).
+    Amount: Enter the transaction amount.
+    Description: Provide a description of the transaction.
